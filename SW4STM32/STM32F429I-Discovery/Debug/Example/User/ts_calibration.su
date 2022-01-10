@@ -1,0 +1,5 @@
+ts_calibration.c:149:13:WaitForPressedState	24	static
+ts_calibration.c:51:6:Touchscreen_Calibration	48	static
+ts_calibration.c:180:10:Calibration_GetX	0	static
+ts_calibration.c:190:10:Calibration_GetY	0	static
+ts_calibration.c:200:9:IsCalibrationDone	0	static
