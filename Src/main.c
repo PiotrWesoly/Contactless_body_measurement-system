@@ -89,20 +89,22 @@ int main(void)
   /* Infinite loop */  
   while (1)
   { 
-	  HAL_Delay(100);
-	  while(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4))        //wait until NSS (CS) pin changes from high to low
-	  {
-		  if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == 0)    //check if NSS (CS) pin is low
+//	  HAL_Delay(100);
+	  while(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4 == 0));
+	  while(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4));        //wait until NSS (CS) pin changes from high to low
+
+//	  if(HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == 0)    //check if NSS (CS) pin is low
+//	  {
+		  receiveDataFromCamera();
+		  isEndOfFrame = findEndOfFrame(&spi_data[0]);     //check if the whole data was received by checking if the footer is there
+		  if(isEndOfFrame == 1)
 		  {
-			  receiveDataFromCamera();
-			  isEndOfFrame = findEndOfFrame(&spi_data[0]);     //check if the whole data was received by checking if the footer is there
-			  if(isEndOfFrame == 1)
-			  {
-				  BSP_LED_On(LED3);                           //if footer is there, signalize by setting LED3 on
-				  while(1);
-			  }
+			  BSP_LED_On(LED3);                           //if footer is there, signalize by setting LED3 on
+			  while(1);
 		  }
-	  }
+		 // while(1);
+//	  }
+//	  }
   }
 }
 
@@ -137,9 +139,9 @@ static void sendDataToSDRAM(uint16_t* dataPtr)
 static int findEndOfFrame(uint16_t* dataPtr)
 {
 
-	for(int i=0; i<12842; i++)
+	for(int i=0; i<6420; i++)
 	{
-		if(*(dataPtr+i)== 0u)
+		if(*(dataPtr+i)== 0x00)
 		{
 			if(*(dataPtr+i+1)== 0x55)
 			{
